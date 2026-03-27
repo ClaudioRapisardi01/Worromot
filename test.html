@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worromot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: #F6F6F6; color: #333; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== HEADER ===== */
+    header { background: #F6F6F6; padding: 18px 0; position: relative; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 6px; font-size: 28px; font-weight: 900; color: #5749F6; text-transform: lowercase; letter-spacing: -0.5px; }
+    .logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .nav-bar { display: flex; align-items: center; background: #5749F6; border-radius: 6px; padding: 10px 18px; gap: 4px; flex-wrap: wrap; }
+    .nav-bar a { color: #EFFD90; font-size: 13px; font-weight: 700; padding: 6px 10px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; transition: opacity 0.2s; }
+    .nav-bar a:hover { opacity: 0.8; }
+    .btn-login { background: #EFFD90; color: #5749F6; font-size: 15px; font-weight: 800; padding: 10px 28px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; transition: opacity 0.2s; }
+    .btn-login:hover { opacity: 0.85; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 28px; height: 3px; background: #5749F6; margin: 5px 0; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+    /* ===== HERO ===== */
+    .hero { background: #F6F6F6; text-align: center; padding: 60px 0 0; }
+    .hero-title { color: #5749F6; font-size: 56px; font-weight: 800; text-transform: uppercase; line-height: 1.2; margin-bottom: 40px; }
+    .hero-badge-wrapper { display: flex; justify-content: center; margin-bottom: 0; padding: 0 0 80px; background: linear-gradient(to bottom, transparent 25%, #5749F6 25%); }
+    .hero-badge { position: relative; width: 520px; max-width: 90vw; }
+    .hero-badge-circle { background: #DFDFDA; border-radius: 50%; width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; padding: 60px; border: 8px solid #EFFD90; box-shadow: 0 0 0 4px #EFFD90, inset 0 0 0 0 transparent; outline: 6px wavy #EFFD90; outline-offset: 4px; }
+    .hero-badge-circle { position: relative; z-index: 1; }
+    .hero-badge-text { color: #5749F6; font-size: 17px; font-weight: 700; line-height: 1.7; text-align: center; max-width: 360px; }
+    .hero-logobook { position: absolute; bottom: -25%; left: 50%; transform: translateX(-50%); width: 80%; z-index: 2; pointer-events: none; }
+    .hero-yellow-stripe { background: #EFFD90; height: 60px; }
+
+    /* ===== SERVICES ===== */
+    .services { background: #DFDFDA; padding: 60px 0; }
+    .services-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; }
+    .services-divider { width: 2px; background: #5749F6; margin: 0 24px; }
+    .service-card { text-align: center; padding: 0 20px; }
+    .service-icon { display: flex; justify-content: center; margin-bottom: 20px; min-height: 130px; align-items: center; }
+    .service-card h2 { color: #5749F6; font-size: 24px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; }
+    .service-card .note { color: #5749F6; font-size: 16px; font-weight: 400; margin-bottom: 14px; line-height: 1.6; padding: 0 10px; }
+    .service-card .note strong { font-weight: 900; }
+    .service-card .desc { color: #5749F6; font-size: 16px; font-weight: 700; margin-bottom: 24px; line-height: 1.5; padding: 0 10px; }
+    .input-field { width: 100%; max-width: 400px; margin: 0 auto 14px; background: #EFFD90; border: none; padding: 16px 20px; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; color: #5749F6; outline: none; display: block; border-radius: 4px; }
+    .input-field::placeholder { color: #5749F6; opacity: 0.6; }
+    .btn-primary { display: block; width: 100%; max-width: 400px; margin: 8px auto 0; background: #5749F6; color: #EFFD90; border: none; padding: 16px 20px; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; text-transform: uppercase; cursor: pointer; border-radius: 4px; letter-spacing: 0.3px; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
+
+    /* Digital items grid */
+    .digital-subtitle { color: #5749F6; font-size: 16px; font-weight: 700; margin-bottom: 24px; line-height: 1.5; }
+    .digital-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 380px; margin: 0 auto; }
+    .digital-option { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; padding: 16px 8px; border-radius: 8px; transition: background 0.2s; }
+    .digital-option:hover { background: rgba(87, 73, 246, 0.06); }
+    .digital-option svg { width: 64px; height: 64px; }
+    .digital-option img { width: 100px; height: 100px; object-fit: contain; }
+    .digital-option span { color: #5749F6; font-size: 14px; font-weight: 700; text-align: center; }
+
+    /* ===== FEATURES ===== */
+    .features { background: #EFFD90; padding: 60px 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .feature-card { text-align: center; }
+    .feature-icon { display: flex; justify-content: center; margin-bottom: 20px; min-height: 200px; align-items: flex-end; }
+    .feature-card h3 { color: #5749F6; font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 14px; line-height: 1.3; }
+    .feature-card p { color: #5749F6; font-size: 15px; font-weight: 400; line-height: 1.7; }
+    .feature-card p strong { font-weight: 900; }
+
+    /* ===== QUOTE ===== */
+    .quote-section { background: #5749F6; padding: 70px 0; text-align: center; }
+    .quote-section p { color: #EFFD90; font-size: 34px; font-weight: 800; text-transform: uppercase; line-height: 1.4; max-width: 1000px; margin: 0 auto; }
+
+    /* ===== FOOTER ===== */
+    footer { background: #5749F6; padding: 50px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-bottom: 40px; }
+    .footer-links a { display: block; color: #DFDFDA; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.5px; transition: opacity 0.2s; }
+    .footer-links a:hover { opacity: 0.8; }
+    .footer-info { color: #DFDFDA; font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 2; text-align: center; }
+    .footer-social { display: flex; justify-content: flex-end; align-items: flex-start; gap: 14px; }
+    .footer-social a { display: block; transition: opacity 0.2s; }
+    .footer-social a:hover { opacity: 0.8; }
+    .footer-bottom { border-top: 1px solid rgba(223, 223, 218, 0.25); padding: 18px 0; text-align: center; color: #DFDFDA; font-size: 13px; font-weight: 400; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .header-inner { flex-direction: row; align-items: center; flex-wrap: nowrap; }
+      .nav-bar { position: fixed; top: 0; right: -280px; width: 280px; height: 100vh; background: #5749F6; flex-direction: column; padding: 80px 30px 30px; gap: 8px; z-index: 1000; transition: right 0.3s ease; display: flex; box-shadow: -4px 0 20px rgba(0,0,0,0.2); }
+      .nav-bar.open { right: 0; }
+      .nav-bar a { font-size: 18px; padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(239,253,144,0.2); }
+      .btn-login { position: fixed; bottom: 30px; right: -280px; width: 220px; z-index: 1001; text-align: center; transition: right 0.3s ease; }
+      .nav-bar.open ~ .btn-login { right: 30px; }
+      .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+      .menu-overlay.open { display: block; }
+      .hamburger { z-index: 1002; }
+      .hero-title { font-size: 36px; }
+      .hero-badge-circle { padding: 40px; }
+      .hero-badge-text { font-size: 14px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-divider { width: 100%; height: 2px; margin: 30px 0; }
+      .features-grid { grid-template-columns: 1fr; gap: 48px; }
+      .quote-section p { font-size: 24px; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .footer-social { justify-content: center; }
+      .footer-links { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <img src="static/logo.png" alt="Worromot logo" style="width:120px;height:auto;object-fit:contain;">
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-bar" id="navBar">
+          <a href="#">Home</a>
+          <a href="#">How it Works</a>
+          <a href="#">Use Cases</a>
+          <a href="#">FAQ</a>
+          <a href="#">Who We Are</a>
+          <a href="#">Contacts</a>
+        </nav>
+        <button class="btn-login">Log In</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero-title">Tomorrow<br>Your time is safeguarded.</h1>
+
+      </div>
+      <div class="hero-badge-wrapper">
+        <div class="hero-badge">
+          <div class="hero-badge-circle">
+            <div class="hero-badge-text">
+              You will be able to adjust the delivery schedule within a maximum time frame of 70 years.<br><br>
+              You will have guaranteed shipment, time management convenience, and the delivery of a wide range of goods, both physical and digital, from the smallest to the largest items.
+            </div>
+          </div>
+          <img class="hero-logobook" src="static/logobook.png" alt="Worromot logobook">
+        </div>
+      </div>
+      <div class="hero-yellow-stripe"></div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services">
+      <div class="container">
+        <div class="services-grid">
+
+          <!-- Physical Items -->
+          <div class="service-card">
+            <div class="service-icon">
+              <img src="static/box.png" alt="Box" style="max-width:220px;height:auto;">
+            </div>
+            <h2>Physical Items</h2>
+            <p class="note">*The <strong>PHYSICAL ITEMS</strong> service is working in progress, it is coming soon.</p>
+            <p class="desc">Provide the relevant shipping information (address, street number, city, province, country).</p>
+            <input class="input-field" type="text" placeholder="Enter starting address">
+            <input class="input-field" type="text" placeholder="Enter destination address">
+            <button class="btn-primary">Continue a Ship Into the Future</button>
+          </div>
+
+          <div class="services-divider"></div>
+
+          <!-- Digital Items -->
+          <div class="service-card">
+            <div class="service-icon">
+              <img src="static/phone.png" alt="Phone" style="max-width:220px;height:auto;">
+            </div>
+            <h2>Digital Items</h2>
+            <p class="digital-subtitle">Chose the delivery method for the digital item.</p>
+            <div class="digital-grid">
+
+              <!-- Email -->
+              <div class="digital-option">
+                <img src="static/email.png" alt="Email">
+                <span>Send an email</span>
+              </div>
+
+              <!-- SMS -->
+              <div class="digital-option">
+                <img src="static/sms.png" alt="SMS" style="width: 65px; height: 65px; margin-top: 35px;">
+                <span>Send an sms</span>
+              </div>
+
+              <!-- File -->
+              <div class="digital-option">
+                <img src="static/file.png" alt="File">
+                <span>Deposit a file</span>
+              </div>
+
+              <!-- Social -->
+              <div class="digital-option">
+                <img src="static/message.png" alt="Message">
+                <span>Send a social message</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="container">
+        <div class="features-grid">
+
+          <!-- Cutting-Edge Shipping -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="static/phonewing.png" alt="Cutting-Edge Shipping" style="width: 100px; height: 100px; object-fit: contain;">
+            </div>
+            <h3>Cutting-Edge Shipping</h3>
+            <p>Our innovative solutions are transforming the way you send packages. From a Customized and Secure city deliveries to secure global shipping, we offer you a reliable and stress-free service. Every package is handled with care, ensuring it reaches its destination in perfect condition.</p>
+          </div>
+
+          <!-- Boundless Digital Delivery -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="static/logomini.png" alt="Boundless Digital Delivery" style="width: 200px; height: 130px; object-fit: contain;">
+            </div>
+            <h3>Boundless Digital Delivery</h3>
+            <p><strong>Worromot</strong> goes beyond time limits with digital delivery service. Whether you need to send a file across the world or share important documents, we are here to ensure fast and secure transmission. Your trust is our priority, and we are committed to providing you with an unparalleled experience.</p>
+          </div>
+
+          <!-- Your Trust: Our Priority -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="static/heremap.png" alt="Your Trust: Our Priority" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <h3>Your Trust: Our Priority</h3>
+            <p>We are the partner you can always rely on for all your shipping needs. Our dedication and expertise enable us to provide you with impeccable service, exceeding every expectation. With us, every shipment becomes a unique experience.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section">
+      <div class="container">
+        <p>Preserve what matters for the future. With our platform, you can safeguard not only a physical object, but also a message, a thought, or an emotion to be delivered to the person you choose, at a time of your choosing.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Links -->
+        <div class="footer-links">
+          <a href="#">Home</a>
+          <a href="#">About Us</a>
+          <a href="#">Services</a>
+          <a href="#">Terms of Services</a>
+        </div>
+
+        <!-- Company Info -->
+        <div class="footer-info">
+          Tomorrow SRL<br>
+          Via dei Vecchi Pini 17, 81100, Caserta, Italy<br>
+          Caserta - Italy<br>
+          Phone: +39 658 765 787<br>
+          Email: info@worromot.com
+        </div>
+
+        <!-- Social Icons -->
+        <div class="footer-social">
+          <!-- Instagram -->
+          <a href="#" aria-label="Instagram">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.5633 0C9.65409 0 0 9.65409 0 21.5633C0 33.4725 0 43.1265 21.5633 43.1265C33.4725 43.1265 43.1265 33.4725 43.1265 21.5633C43.1265 9.65409 33.4725 0 21.5633 0ZM33.8847 27.7935C33.8847 31.1963 31.1268 33.9542 27.724 33.9542H15.401C11.9981 33.9542 9.24025 31.1963 9.24025 27.7935V15.4705C9.24025 12.0676 11.9981 9.30976 15.401 9.30976H27.724C31.1268 9.30976 33.8847 12.0676 33.8847 15.4705V27.7935Z" fill="#EFFD90"/>
+              <path transform="translate(11.5, 11.5)" d="M16.3272 0H4.00421C1.79276 0.00323312 0.00161656 1.79438 0 4.00421V16.3272C0.00323312 18.5387 1.79438 20.3298 4.00421 20.3315H16.3272C18.5387 20.3282 20.3298 18.5371 20.3315 16.3272V4.00421C20.3282 1.79276 18.5371 0.00161656 16.3272 0ZM10.1665 16.3272C6.76368 16.3272 4.00583 13.5694 4.00583 10.1665C4.00583 6.76368 6.76368 4.00583 10.1665 4.00583C13.5694 4.00583 16.3272 6.76368 16.3272 10.1665C16.3272 13.5694 13.5694 16.3272 10.1665 16.3272ZM16.6748 5.0469C15.8245 5.0469 15.1342 4.35662 15.1342 3.50631C15.1342 2.656 15.8245 1.96573 16.6748 1.96573C17.5251 1.96573 18.2154 2.656 18.2154 3.50631C18.2154 4.35662 17.5251 5.0469 16.6748 5.0469Z" fill="#EFFD90"/>
+              <ellipse transform="translate(17.5, 17.5)" cx="4" cy="4" rx="4" ry="4" fill="#EFFD90"/>
+            </svg>
+          </a>
+          <!-- LinkedIn -->
+          <a href="#" aria-label="LinkedIn">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.5633 -0.000244141C9.65409 -0.000244141 0 9.65384 0 21.563C0 33.4722 9.65409 43.1263 21.5633 43.1263C33.4725 43.1263 43.1265 33.4722 43.1265 21.563C43.1265 9.65384 33.4725 -0.000244141 21.5633 -0.000244141ZM15.4511 32.2339H10.645V17.1547H15.4511V32.2339ZM13.0489 15.1792C11.5552 15.1792 10.3444 13.9684 10.3444 12.4747C10.3444 10.981 11.5552 9.77024 13.0489 9.77024C14.5426 9.77024 15.7534 10.981 15.7534 12.4747C15.7534 13.9684 14.5426 15.1792 13.0489 15.1792ZM28.0667 32.2339V23.9895C28.0667 23.5708 28.133 20.7936 25.7744 20.7936C24.9241 20.7725 24.1158 21.1686 23.6115 21.8524C23.1782 22.4311 22.947 23.1343 22.9535 23.8569V32.2339H18.2429V17.1547H22.7256V19.2708C23.799 17.6251 25.1504 17.0221 26.4808 16.7796C28.841 16.3496 32.7854 17.7868 32.7854 22.0787V32.2339H28.0683H28.0667Z" fill="#EFFD90"/>
+            </svg>
+          </a>
+          <!-- Facebook -->
+          <a href="#" aria-label="Facebook">
+            <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.4275 0C9.59266 0 0 9.59428 0 21.4275C0 33.2607 9.59427 42.855 21.4275 42.855C33.2607 42.855 42.855 33.2607 42.855 21.4275C42.855 9.59428 33.2623 0 21.4275 0ZM27.0854 12.8419C27.0854 12.8419 24.8934 12.669 24.0285 12.9874C22.6011 13.5144 22.5672 14.7479 22.5672 15.9247V18.3269H26.9319L26.2933 22.9212H22.5655V34.263H17.635V22.9212H13.5354V18.3269H17.635V14.431C17.635 10.3056 20.8116 8.81024 22.7046 8.63081C24.5976 8.45137 27.0822 8.98968 27.0822 8.98968V12.8436L27.0854 12.8419Z" fill="#EFFD90"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        TOMORROW SRL - VAT Number: 12345678941 | &copy; Worromot. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('navBar').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('active');
+  document.getElementById('menuOverlay').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('navBar').classList.contains('open') ? 'hidden' : '';
+}
+</script>
+</body>
+</html>
